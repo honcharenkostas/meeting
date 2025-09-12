@@ -21,12 +21,13 @@ class UserLogs(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(String)
+    user_fingerprint = Column(String)
     meeting_id = Column(String)
     log_id = Column(Integer)
-    log = Column(JSON)
-    fingerprint = Column(String)
+    log = Column(String)
+    activity_status = Column(String)
     logged_at = Column(DateTime)
-    created_at = Column(DateTime)
+    created_at = Column(DateTime, default=dt.now())
 
 def get_db():
     db = SessionLocal()
