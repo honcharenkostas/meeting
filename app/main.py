@@ -4,6 +4,7 @@ import time
 import shutil
 import subprocess
 import logging
+import tempfile
 
 
 class App:
@@ -15,13 +16,22 @@ class App:
         process = subprocess.Popen([
             chrome_path,
             f"--remote-debugging-port={self.CHROME_CDP_PORT}",
-            "--user-data-dir=/tmp/chrome-profile"
+            f"--user-data-dir={self.get_user_data_dir()}"
         ])
         time.sleep(5)
         if process:
             logging.info("Chrome launched")
         else:
             raise Exception("Chrome launching failed")
+        
+    @staticmethod
+    def get_user_data_dir():
+        if sys.platform.startswith("win"):
+            return os.path.join(os.environ["LOCALAPPDATA"], "Google", "Chrome", "User Data")
+        elif sys.platform == "darwin":
+            return os.path.expanduser("~/Library/Application Support/Google/Chrome")
+        else:  # Linux / Unix
+            return os.path.expanduser("~/.config/google-chrome")
         
     @staticmethod
     def find_chrome_executable():
