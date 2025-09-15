@@ -2,10 +2,10 @@
 
 
 a = Analysis(
-    ['main.py'],
+    ['zoom_monitor.py'],
     pathex=[],
     binaries=[],
-    datas=[('/Users/stas/code/corporate-meeting/venv/lib/python3.12/site-packages/playwright', 'playwright')],
+    datas=[],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
@@ -19,26 +19,26 @@ pyz = PYZ(a.pure)
 exe = EXE(
     pyz,
     a.scripts,
+    a.binaries,
+    a.datas,
     [],
-    exclude_binaries=True,
-    name='main',
+    name='zoom_monitor',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
     upx=True,
-    console=True,
+    upx_exclude=[],
+    runtime_tmpdir=None,
+    console=False,
     disable_windowed_traceback=False,
     argv_emulation=False,
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
 )
-coll = COLLECT(
+app = BUNDLE(
     exe,
-    a.binaries,
-    a.datas,
-    strip=False,
-    upx=True,
-    upx_exclude=[],
-    name='main',
+    name='zoom_monitor.app',
+    icon=None,
+    bundle_identifier=None,
 )
