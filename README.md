@@ -1,5 +1,5 @@
 # Corporate Meeting App
 
 ```
-pyinstaller --onefile --windowed main.py
+pyinstaller --onefile --windowed zoom_monitor.py --hidden-import=models.db
 ```

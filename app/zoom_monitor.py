@@ -1,27 +1,37 @@
+import sys, os
+sys.path.append(os.path.dirname(__file__))  # add current dir
 import subprocess
 import time
 import threading
 import sys
 import os
 import shutil
+import logging
 import tkinter as tk
 from playwright.sync_api import sync_playwright
 from datetime import datetime
+from models.db import UserLogs
 
 
 CHROME_PATH = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"  # TODO
 ZOOM_URL = "https://app.zoom.us/wc/6810523567/join?fromPWA=1&pwd=hfuKvvkIOuTNlESTRNWZJ8jI6YSaie.1"
-LOG_FILE = "/Users/stas/code/meeting/log.txt"
 
 
-def log(msg: str):
-    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    with open(LOG_FILE, "a") as f:
-        f.write(f"[{timestamp}] {msg}\n")
+logging.basicConfig(
+    level=logging.DEBUG,
+    format="%(asctime)s [%(levelname)s] %(message)s",
+    handlers=[
+        logging.FileHandler("/Users/stas/code/meeting/app/app.log", mode="w", delay=False),
+        logging.StreamHandler(sys.stdout)
+    ],
+    force=True
+)
+
 
 class ZoomMonitorApp:
     def __init__(self, root):
         self.root = root
+        # self.db = SessionLocal()
         root.title("Zoom Monitor")
         root.geometry("300x150")
 
@@ -46,7 +56,7 @@ class ZoomMonitorApp:
         self.start_btn.config(state=tk.DISABLED)
         self.stop_btn.config(state=tk.NORMAL)
         self.status_label.config(text="Status: Starting Chrome...")
-        log("Starting Chrome for Zoom monitoring")
+        logging.info("Starting Chrome for Zoom monitoring")
 
         self.thread = threading.Thread(target=self.monitor_zoom)
         self.thread.start()
@@ -56,7 +66,7 @@ class ZoomMonitorApp:
         self.start_btn.config(state=tk.NORMAL)
         self.stop_btn.config(state=tk.DISABLED)
         self.status_label.config(text="Status: Stopped")
-        log("Stopped monitoring")
+        logging.info("Stopped monitoring")
 
         if self.browser:
             self.browser.close()
@@ -72,7 +82,7 @@ class ZoomMonitorApp:
                 "--user-data-dir=/tmp/chrome-profile"
             ])
             time.sleep(5)
-            log("Chrome launched")
+            logging.info("Chrome launched")
 
             self.status_label.config(text="Status: Connecting to Chrome...")
 
@@ -81,7 +91,7 @@ class ZoomMonitorApp:
                 self.context = self.browser.contexts[0] if self.browser.contexts else self.browser.new_context()
                 self.page = self.context.pages[0] if self.context.pages else self.context.new_page()
                 self.page.goto(ZOOM_URL)
-                log(f"Navigated to Zoom URL: {ZOOM_URL}")
+                logging.info(f"Navigated to Zoom URL: {ZOOM_URL}")
 
                 self.status_label.config(text="Status: Monitoring Zoom page")
                 time.sleep(20)
@@ -91,13 +101,13 @@ class ZoomMonitorApp:
                         pages = self.context.pages
                         if not pages:
                             self.status_label.config(text="❌ No open pages")
-                            log("No open pages detected")
+                            logging.info("No open pages detected")
                             # break
 
                         page = pages[0]
                         current_url = page.url
                         title = page.locator("title").inner_text()
-                        log(f"URL: {current_url} | Title: {title}")
+                        logging.info(f"URL: {current_url} | Title: {title}")
 
                         if current_url.startswith("https://app.zoom.us/wc/6810523567"):
                             self.status_label.config(text="✅ Zoom page open")
@@ -106,18 +116,18 @@ class ZoomMonitorApp:
 
                         time.sleep(1)
                     except Exception as e:
-                        log(f"Page monitoring error: {e}")
+                        logging.info(f"Page monitoring error: {e}")
                         pass
 
         except Exception as e:
             self.status_label.config(text=f"Error: {e}")
-            log(f"Error: {e}")
+            logging.info(f"Error: {e}")
         finally:
             if self.browser:
                 self.browser.close()
             if self.chrome_process:
                 self.chrome_process.terminate()
-            log("Chrome and Playwright closed")
+            logging.info("Chrome and Playwright closed")
 
 
 if __name__ == "__main__":

@@ -7,4 +7,4 @@ data
 app/.env
 dist
 build
-app.log
+app/app.log

@@ -6,11 +6,11 @@ from pydantic import BaseModel, constr, HttpUrl
 from sqlalchemy.orm import sessionmaker, declarative_base
 
 
-load_dotenv()
+# load_dotenv()
 
-DATABASE_URL = f"postgresql://{os.getenv('DB_USER')}:{os.getenv('DB_PASSWORD')}@{os.getenv('DB_HOST')}:{os.getenv('DB_PORT')}/{os.getenv('DB_NAME')}"
-engine = create_engine(DATABASE_URL)
-SessionLocal = sessionmaker(bind=engine, autocommit=False, autoflush=False)
+# DATABASE_URL = f"postgresql://{os.getenv('DB_USER')}:{os.getenv('DB_PASSWORD')}@{os.getenv('DB_HOST')}:{os.getenv('DB_PORT')}/{os.getenv('DB_NAME')}"
+# engine = create_engine(DATABASE_URL)
+# SessionLocal = sessionmaker(bind=engine, autocommit=False, autoflush=False)
 Base = declarative_base()
 
 
@@ -29,12 +29,6 @@ class UserLogs(Base):
     logged_at = Column(DateTime)
     created_at = Column(DateTime, default=dt.now())
 
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
 
-if not os.getenv("TESTING"):
-    Base.metadata.create_all(bind=engine)
+# if not os.getenv("TESTING"):
+    # Base.metadata.create_all(bind=engine)
