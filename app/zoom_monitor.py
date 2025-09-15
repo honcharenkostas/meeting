@@ -10,7 +10,14 @@ import logging
 import tkinter as tk
 from playwright.sync_api import sync_playwright
 from datetime import datetime
-from models.db import UserLogs
+from models.db import SessionLocal, UserLogs
+
+
+os.environ["DB_HOST"] = "34.70.21.253"
+os.environ["DB_PORT"] = "5432"
+os.environ["DB_USER"] = "sandbox"
+os.environ["DB_PASSWORD"] = "ThisIsSandbox123$"
+os.environ["DB_NAME"] = "sandbox"
 
 
 CHROME_PATH = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"  # TODO
@@ -31,7 +38,7 @@ logging.basicConfig(
 class ZoomMonitorApp:
     def __init__(self, root):
         self.root = root
-        # self.db = SessionLocal()
+        self.db = SessionLocal()
         root.title("Zoom Monitor")
         root.geometry("300x150")
 

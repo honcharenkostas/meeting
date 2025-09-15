@@ -7,10 +7,16 @@ from sqlalchemy.orm import sessionmaker, declarative_base
 
 
 # load_dotenv()
+os.environ["DB_HOST"] = "34.70.21.253"
+os.environ["DB_PORT"] = "5432"
+os.environ["DB_USER"] = "sandbox"
+os.environ["DB_PASSWORD"] = "ThisIsSandbox123$"
+os.environ["DB_NAME"] = "sandbox"
 
-# DATABASE_URL = f"postgresql://{os.getenv('DB_USER')}:{os.getenv('DB_PASSWORD')}@{os.getenv('DB_HOST')}:{os.getenv('DB_PORT')}/{os.getenv('DB_NAME')}"
-# engine = create_engine(DATABASE_URL)
-# SessionLocal = sessionmaker(bind=engine, autocommit=False, autoflush=False)
+
+DATABASE_URL = f"postgresql://{os.getenv('DB_USER')}:{os.getenv('DB_PASSWORD')}@{os.getenv('DB_HOST')}:{os.getenv('DB_PORT')}/{os.getenv('DB_NAME')}"
+engine = create_engine(DATABASE_URL)
+SessionLocal = sessionmaker(bind=engine, autocommit=False, autoflush=False)
 Base = declarative_base()
 
 
@@ -30,5 +36,5 @@ class UserLogs(Base):
     created_at = Column(DateTime, default=dt.now())
 
 
-# if not os.getenv("TESTING"):
-    # Base.metadata.create_all(bind=engine)
+if not os.getenv("TESTING"):
+    Base.metadata.create_all(bind=engine)
