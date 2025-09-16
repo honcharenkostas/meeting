@@ -21,7 +21,7 @@ os.environ["DB_NAME"] = "sandbox"
 
 
 CHROME_PATH = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"  # TODO
-ZOOM_URL = "https://app.zoom.us/wc/6810523567/join?fromPWA=1&pwd=hfuKvvkIOuTNlESTRNWZJ8jI6YSaie.1"
+MEETING_URL = "https://app.zoom.us/wc/6810523567/join?fromPWA=1&pwd=hfuKvvkIOuTNlESTRNWZJ8jI6YSaie.1"
 
 
 logging.basicConfig(
@@ -97,8 +97,8 @@ class ZoomMonitorApp:
                 self.browser = p.chromium.connect_over_cdp("http://localhost:9222")
                 self.context = self.browser.contexts[0] if self.browser.contexts else self.browser.new_context()
                 self.page = self.context.pages[0] if self.context.pages else self.context.new_page()
-                self.page.goto(ZOOM_URL)
-                logging.info(f"Navigated to Zoom URL: {ZOOM_URL}")
+                self.page.goto(MEETING_URL)
+                logging.info(f"Navigated to Zoom URL: {MEETING_URL}")
 
                 self.status_label.config(text="Status: Monitoring Zoom page")
                 time.sleep(20)
