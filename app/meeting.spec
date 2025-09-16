@@ -2,7 +2,7 @@
 
 
 a = Analysis(
-    ['zoom_monitor.py'],
+    ['meeting.py'],
     pathex=[],
     binaries=[],
     datas=[],
@@ -22,7 +22,7 @@ exe = EXE(
     a.binaries,
     a.datas,
     [],
-    name='zoom_monitor',
+    name='meeting',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
@@ -38,7 +38,7 @@ exe = EXE(
 )
 app = BUNDLE(
     exe,
-    name='zoom_monitor.app',
+    name='meeting.app',
     icon=None,
     bundle_identifier=None,
 )

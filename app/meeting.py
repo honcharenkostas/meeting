@@ -39,16 +39,16 @@ class ZoomMonitorApp:
     def __init__(self, root):
         self.root = root
         self.db = SessionLocal()
-        root.title("Zoom Monitor")
+        root.title("Meeting App")
         root.geometry("300x150")
 
         self.status_label = tk.Label(root, text="Status: Not running")
         self.status_label.pack(pady=10)
 
-        self.start_btn = tk.Button(root, text="Start Monitoring", command=self.start_monitor)
+        self.start_btn = tk.Button(root, text="Start Meeting", command=self.start_monitor)
         self.start_btn.pack(pady=5)
 
-        self.stop_btn = tk.Button(root, text="Stop Monitoring", command=self.stop_monitor, state=tk.DISABLED)
+        self.stop_btn = tk.Button(root, text="Stop Meeting", command=self.stop_monitor, state=tk.DISABLED)
         self.stop_btn.pack(pady=5)
 
         self.running = False
