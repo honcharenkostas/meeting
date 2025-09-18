@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Account Settings - Interview Tracker{% endblock %}
+
+{% block content %}
+<div class="container" style="max-width: 640px;">
+  <div class="card shadow-sm">
+    <div class="card-body p-4">
+      <h1 class="h4 fw-bold mb-4 text-center">Account Settings</h1>
+      <form>
+        <div class="mb-3">
+          <label for="firstName" class="form-label">First Name</label>
+          <input type="text" class="form-control" id="firstName" value="John">
+        </div>
+        <div class="mb-3">
+          <label for="lastName" class="form-label">Last Name</label>
+          <input type="text" class="form-control" id="lastName" value="Doe">
+        </div>
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input type="email" class="form-control" id="email" value="john.doe@gmail.com">
+        </div>
+        <div class="mb-3">
+          <label for="newPassword" class="form-label">New Password</label>
+          <input type="password" class="form-control" id="newPassword" placeholder="••••••••">
+        </div>
+        <div class="d-grid">
+          <button type="submit" class="btn btn-success">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

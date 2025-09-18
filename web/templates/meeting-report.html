@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Meeting Report - Interview Tracker{% endblock %}
+
+{% block content %}
+<h1 class="h4 fw-bold mb-4">Meeting Report</h1>
+
+<div class="card shadow-sm mb-4">
+  <div class="card-body">
+    <p><strong>Interviewer:</strong> Max Wilson (<span class="text-muted">anna.parker@company.com</span>)</p>
+    <p><strong>Interviewee:</strong> John Doe (<span class="text-muted">john.doe@gmail.com</span>)</p>
+    <p><strong>Tracking time:</strong> 10/10/2025 (10:00 - 11:00)</p>
+    <p><strong>Activity status:</strong> <span class="badge bg-danger">Danger</span></p>
+    <p><strong>Cheating detected:</strong> Cluely, Extra Browser Tabs</p>
+  </div>
+</div>
+
+<div class="card shadow-sm">
+  <div class="card-body">
+    <h2 class="h5 fw-bold mb-3">Logs</h2>
+    <div class="table-responsive">
+      <table class="table align-middle">
+        <thead class="table-light">
+          <tr>
+            <th>#</th>
+            <th>Log</th>
+            <th>Status</th>
+            <th>DateTime</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>210002</td>
+            <td>Cluely is running</td>
+            <td><span class="badge bg-danger">Danger</span></td>
+            <td>2025-10-10 10:17:10</td>
+          </tr>
+          <tr>
+            <td>110001</td>
+            <td>Cheating software is not running</td>
+            <td><span class="badge bg-success">Safe</span></td>
+            <td>2025-10-10 10:16:10</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

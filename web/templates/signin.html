@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Sign In - Interview Tracker{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-center">
+  <div class="card shadow-sm" style="max-width:420px; width:100%;">
+    <div class="card-body p-4">
+      <h2 class="h4 text-center mb-4">Sign In</h2>
+      <form>
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input type="email" class="form-control" id="email" placeholder="name@example.com">
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label">Password</label>
+          <input type="password" class="form-control" id="password" placeholder="••••••••">
+        </div>
+        <div class="d-grid mb-3">
+          <button type="submit" class="btn btn-success">Sign In</button>
+        </div>
+        <p class="text-center mb-0">Don't have an account? <a href="/signup">Sign Up</a></p>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

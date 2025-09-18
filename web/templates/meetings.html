@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Meetings - Interview Tracker{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h1 class="h4 fw-bold">Meetings</h1>
+  <a href="/create-meeting" class="btn btn-success">Create Meeting</a>
+</div>
+
+<div class="table-responsive bg-white shadow-sm rounded">
+  <table class="table align-middle mb-0">
+    <thead class="table-light">
+      <tr>
+        <th>#</th>
+        <th>Title</th>
+        <th>Interviewee</th>
+        <th>Interviewer</th>
+        <th>Meeting Url</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>Tech Interview, John Doe, Senior Software Engineer</td>
+        <td>John Doe<br><small class="text-muted">john.doe@gmail.com</small></td>
+        <td>Max Wilson<br><small class="text-muted">anna.parker@company.com</small></td>
+        <td>
+          <a href="https://app.zoom.us/wc/1234567/meeting" target="_blank">https://app.zoom.us/wc/1234567/meeting</a>
+          &nbsp;&nbsp;<i class="bi bi-copy" role="button" title="Copy"></i>
+        </td>
+        <td><i class="bi bi-trash text-danger" role="button" title="Delete"></i></td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>HR Interview, John Doe, Senior Software Engineer</td>
+        <td>John Doe<br><small class="text-muted">john.doe@gmail.com</small></td>
+        <td>Anna Parker<br><small class="text-muted">anna.parker@company.com</small></td>
+        <td>
+          <a href="https://app.zoom.us/wc/2345678/meeting" target="_blank">https://app.zoom.us/wc/2345678/meeting</a>
+          &nbsp;&nbsp;<i class="bi bi-copy" role="button" title="Copy"></i>
+        </td>
+        <td><i class="bi bi-trash text-danger" role="button" title="Delete"></i></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+{% endblock %}

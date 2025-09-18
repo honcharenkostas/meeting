@@ -1,0 +1,10 @@
+version: "3.9"
+services:
+  interview-tracker:
+    build: .
+    container_name: interview-tracker
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    restart: always

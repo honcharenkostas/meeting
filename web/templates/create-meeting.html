@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Create Meeting - Interview Tracker{% endblock %}
+
+{% block content %}
+<div class="container" style="max-width: 640px;">
+  <div class="card shadow-sm">
+    <div class="card-body p-4">
+      <h1 class="h4 fw-bold mb-4 text-center">Create Meeting</h1>
+      <form>
+        <div class="mb-3">
+          <label for="title" class="form-label">Title</label>
+          <input type="text" class="form-control" id="title" placeholder="Tech Interview, John Doe, Senior Software Engineer">
+        </div>
+
+        <div class="mb-3">
+          <label for="intervieweeName" class="form-label">Interviewee Name</label>
+          <input type="text" class="form-control" id="intervieweeName" placeholder="John Doe">
+        </div>
+        <div class="mb-3">
+          <label for="intervieweeEmail" class="form-label">Interviewee Email</label>
+          <input type="email" class="form-control" id="intervieweeEmail" placeholder="candidate@email.com">
+        </div>
+
+        <div class="mb-3">
+          <label for="interviewerName" class="form-label">Interviewer Name</label>
+          <input type="text" class="form-control" id="interviewerName" placeholder="Anna Parker">
+        </div>
+        <div class="mb-3">
+          <label for="interviewerEmail" class="form-label">Interviewer Email</label>
+          <input type="email" class="form-control" id="interviewerEmail" placeholder="interviewer@company.com">
+        </div>
+
+        <div class="mb-3">
+          <label for="meetingUrl" class="form-label">Meeting Url</label>
+          <input type="url" class="form-control" id="meetingUrl" placeholder="https://app.zoom.us/wc/1234567/meeting">
+        </div>
+
+        <div class="d-grid">
+          <button type="submit" class="btn btn-success">Create</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
