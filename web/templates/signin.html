@@ -2,22 +2,29 @@
 {% block title %}Sign In - Interview Tracker{% endblock %}
 {% block content %}
 <div class="d-flex justify-content-center">
-  <div class="card shadow-sm" style="max-width:420px; width:100%;">
+  <div class="card shadow-sm" style="max-width:480px; width:100%;">
     <div class="card-body p-4">
       <h2 class="h4 text-center mb-4">Sign In</h2>
-      <form>
+      <form id="signinForm" novalidate>
         <div class="mb-3">
           <label for="email" class="form-label">Email</label>
-          <input type="email" class="form-control" id="email" placeholder="name@example.com">
+          <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com" required>
+          <div class="invalid-feedback"></div>
         </div>
         <div class="mb-3">
           <label for="password" class="form-label">Password</label>
-          <input type="password" class="form-control" id="password" placeholder="••••••••">
+          <input type="password" class="form-control" id="password" name="password" placeholder="••••••••" required>
+          <div class="invalid-feedback"></div>
         </div>
-        <div class="d-grid mb-3">
+
+        <div class="alert alert-danger d-none" id="signinFormAlert"></div>
+
+        <div class="d-grid mb-2">
           <button type="submit" class="btn btn-success">Sign In</button>
         </div>
-        <p class="text-center mb-0">Don't have an account? <a href="/signup">Sign Up</a></p>
+        <p class="text-center mb-0">
+          Don’t have an account? <a href="/signup">Sign Up</a>
+        </p>
       </form>
     </div>
   </div>

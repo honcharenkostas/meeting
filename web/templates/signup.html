@@ -1,31 +1,39 @@
 {% extends "base.html" %}
-{% block title %}Sign In - Interview Tracker{% endblock %}
 {% block content %}
-<div class="container" style="max-width: 420px;">
+<div class="container" style="max-width: 480px;">
   <div class="card shadow-sm">
     <div class="card-body p-4">
       <h2 class="h4 text-center mb-4">Create Account</h2>
-      <form>
+      <form id="signupForm" novalidate>
         <div class="mb-3">
           <label for="firstName" class="form-label">First Name</label>
-          <input type="text" class="form-control" id="firstName" placeholder="John">
+          <input type="text" class="form-control" id="firstName" name="first_name" placeholder="John" required>
+          <div class="invalid-feedback"></div>
         </div>
         <div class="mb-3">
           <label for="lastName" class="form-label">Last Name</label>
-          <input type="text" class="form-control" id="lastName" placeholder="Doe">
+          <input type="text" class="form-control" id="lastName" name="last_name" placeholder="Doe" required>
+          <div class="invalid-feedback"></div>
         </div>
         <div class="mb-3">
           <label for="email" class="form-label">Email</label>
-          <input type="email" class="form-control" id="email" placeholder="name@example.com">
+          <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com" required>
+          <div class="invalid-feedback"></div>
         </div>
         <div class="mb-3">
-          <label for="password" class="form-label">Password</label>
-          <input type="password" class="form-control" id="password" placeholder="••••••••">
+          <label for="password" class="form-label">Password <span class="text-muted">(min 8 chars)</span></label>
+          <input type="password" class="form-control" id="password" name="password" placeholder="••••••••" minlength="8" required>
+          <div class="invalid-feedback"></div>
         </div>
-        <div class="d-grid mb-3">
+
+        <div class="alert alert-danger d-none" id="signupFormAlert"></div>
+
+        <div class="d-grid mb-2">
           <button type="submit" class="btn btn-success">Sign Up</button>
         </div>
-        <p class="text-center mb-0">Already have an account? <a href="signin">Sign In</a></p>
+        <p class="text-center mb-0">
+          Already have an account? <a href="/signin">Sign In</a>
+        </p>
       </form>
     </div>
   </div>
