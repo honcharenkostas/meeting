@@ -38,7 +38,12 @@ def ensure_csrf(request: Request):
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request):
     uid = current_user_id(request)
-    return templates.TemplateResponse("index.html", {"request": request, "user_id": uid})
+    return templates.TemplateResponse(
+        "index.html", {
+            "request": request, 
+            "user_id": uid,
+        }
+    )
 
 @app.get("/signup", response_class=HTMLResponse)
 async def signup(request: Request):
@@ -111,8 +116,20 @@ async def download(request: Request):
     return templates.TemplateResponse("download.html", {"request": request})
 
 @app.get("/meetings", response_class=HTMLResponse)
-async def meetings(request: Request, user_id: str = Depends(require_user)):
-    return templates.TemplateResponse("meetings.html", {"request": request, "user_id": user_id})
+async def meetings(request: Request, user_id: str = Depends(require_user), db: Session = Depends(get_session)):
+    user = db.query(Client).filter(Client.id == user_id).first()
+    if not user:
+        return RedirectResponse(url="/signin")
+
+    return templates.TemplateResponse(
+        "meetings.html", 
+        {
+            "request": request, 
+            "user_id": user_id,
+            "user": user,
+            "show_top_menu": True,
+        }
+    )
 
 @app.get("/create-meeting", response_class=HTMLResponse)
 async def create_meeting(request: Request):
