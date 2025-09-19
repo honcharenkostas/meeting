@@ -20,28 +20,18 @@
       </tr>
     </thead>
     <tbody>
+      {% for row in meetings %}
       <tr>
-        <td>1</td>
-        <td><a href="/meeting-report">Tech Interview, John Doe, Senior Software Engineer</a></td>
-        <td>John Doe<br><small class="text-muted">john.doe@gmail.com</small></td>
-        <td>Max Wilson<br><small class="text-muted">anna.parker@company.com</small></td>
+        <td>{{ row.id }}</td>
+        <td><a href="/meeting-report">{{ row.title }}</a></td>
+        <td>{{ row.interviewee_name }}<br><small class="text-muted">{{ row.interviewee_email }}</small></td>
+        <td>{{ row.interviewer_name }}<br><small class="text-muted">{{ row.interviewer_email }}</small></td>
         <td>
-          <a href="https://app.zoom.us/wc/1234567/meeting" target="_blank">https://app.zoom.us/wc/1234567/meeting</a>
-          &nbsp;&nbsp;<i class="bi bi-copy" role="button" title="Copy"></i>
+          <a href="{{ row.meeting_url }}" target="_blank">{{ row.meeting_url }}</a>
         </td>
         <td><i class="bi bi-trash text-danger" role="button" title="Delete"></i></td>
       </tr>
-      <tr>
-        <td>2</td>
-        <td><a href="/meeting-report">HR Interview, John Doe, Senior Software Engineer</a></td>
-        <td>John Doe<br><small class="text-muted">john.doe@gmail.com</small></td>
-        <td>Anna Parker<br><small class="text-muted">anna.parker@company.com</small></td>
-        <td>
-          <a href="https://app.zoom.us/wc/2345678/meeting" target="_blank">https://app.zoom.us/wc/2345678/meeting</a>
-          &nbsp;&nbsp;<i class="bi bi-copy" role="button" title="Copy"></i>
-        </td>
-        <td><i class="bi bi-trash text-danger" role="button" title="Delete"></i></td>
-      </tr>
+      {% endfor %}
     </tbody>
   </table>
 </div>

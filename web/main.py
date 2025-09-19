@@ -7,7 +7,7 @@ from starlette.middleware.sessions import SessionMiddleware
 from sqlalchemy.orm import Session
 from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
-from models.db import get_session, Client, SignupIn, SigninIn, AccountSettings, APIResponse, APIError
+from models.db import get_session, Client, Meeting, SignupIn, SigninIn, AccountSettings, APIResponse, APIError
 from helpers.security import hash_password, verify_password, new_csrf_token, validate_csrf, CSRF_COOKIE_NAME, CSRF_HEADER_NAME
 from helpers.auth import login_user, logout_user, current_user_id, require_user
 
@@ -168,6 +168,8 @@ async def meetings(request: Request, user_id: str = Depends(require_user), db: S
     user = db.query(Client).filter(Client.id == user_id).first()
     if not user:
         return RedirectResponse(url="/signin")
+    
+    meetings = db.query(Meeting).filter(Meeting.id == user_id).all()
 
     return templates.TemplateResponse(
         "meetings.html", 
@@ -175,6 +177,7 @@ async def meetings(request: Request, user_id: str = Depends(require_user), db: S
             "request": request, 
             "user_id": user_id,
             "user": user,
+            "meetings": meetings,
             "show_top_menu": True,
         }
     )

@@ -37,6 +37,21 @@ class Client(Base):
     created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
     updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False)
 
+class Meeting(Base):
+    __tablename__ = "meetings"
+
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid_lib.uuid4, index=True)
+    client_id = Column(String)
+    title = Column(String)
+    interviewee_name = Column(String)
+    interviewee_email = Column(String)
+    interviewer_name = Column(String)
+    interviewer_email = Column(String)
+    meeting_url = Column(String)
+    
+    created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+    updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False)
+
 # Schemas
 PasswordStr = constr(min_length=8, max_length=128)
 
