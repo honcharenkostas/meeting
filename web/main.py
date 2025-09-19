@@ -36,7 +36,11 @@ def ensure_csrf(request: Request):
 
 # ---- Pages ----------------------------------------------------------
 @app.get("/", response_class=HTMLResponse)
-async def home(request: Request):
+async def home(request: Request, db: Session = Depends(get_session), user_id: str = Depends(current_user_id)):
+    user = db.query(Client).filter(Client.id == user_id).first()
+    if user:
+        return RedirectResponse(url="/meetings")
+
     return templates.TemplateResponse(
         "index.html", {
             "request": request, 
@@ -44,14 +48,22 @@ async def home(request: Request):
     )
 
 @app.get("/signup", response_class=HTMLResponse)
-async def signup(request: Request):
+async def singup(request: Request, db: Session = Depends(get_session), user_id: str = Depends(current_user_id)):
+    user = db.query(Client).filter(Client.id == user_id).first()
+    if user:
+        return RedirectResponse(url="/meetings")
+
     token = new_csrf_token()
     resp = templates.TemplateResponse("signup.html", {"request": request, "csrf_token": token})
     resp.set_cookie(CSRF_COOKIE_NAME, token, samesite="Lax", secure=False, httponly=False, max_age=3600)
     return resp
 
 @app.get("/signin", response_class=HTMLResponse)
-async def signin(request: Request):
+async def signin(request: Request, db: Session = Depends(get_session), user_id: str = Depends(current_user_id)):
+    user = db.query(Client).filter(Client.id == user_id).first()
+    if user:
+        return RedirectResponse(url="/meetings")
+
     token = new_csrf_token()
     resp = templates.TemplateResponse("signin.html", {"request": request, "csrf_token": token})
     resp.set_cookie(CSRF_COOKIE_NAME, token, samesite="Lax", secure=False, httponly=False, max_age=3600)
