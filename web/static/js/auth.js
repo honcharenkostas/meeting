@@ -106,4 +106,55 @@ $(function () {
         $('#signinFormAlert').text('Network error. Please try again.').removeClass('d-none');
       });
   });
+
+    // ---- Account Settings ----------------------------------------------
+    $('#accountSettingsForm').on('submit', function (e) {
+    e.preventDefault();
+    const $form = $(this);
+
+    // clear previous errors
+    $form.find('.is-invalid').removeClass('is-invalid');
+    $form.find('.invalid-feedback').text('');
+    $('#accountSettingsAlert').addClass('d-none').text('');
+
+    const data = {
+        first_name: $form.find('#firstName').val().trim(),
+        last_name: $form.find('#lastName').val().trim(),
+        email: $form.find('#email').val().trim(),
+        password: $form.find('#newPassword').val().trim()
+    };
+
+    const csrf = getCookie('csrf_token');
+
+    $.ajax({
+        url: '/api/account-settings',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(data),
+        headers: { 'X-CSRF-Token': csrf || '' },
+        xhrFields: { withCredentials: true },
+        success: function (res) {
+        if (res.ok) {
+            window.location.href = res.redirect || '/';
+        } else {
+            let shownTopAlert = false;
+            res.errors.forEach(err => {
+            const $input = $form.find(`[name="${err.field}"]`);
+            if ($input.length) {
+                $input.addClass('is-invalid');
+                $input.siblings('.invalid-feedback').text(err.message);
+            } else if (!shownTopAlert) {
+                $('#accountSettingsAlert').text(err.message).removeClass('d-none');
+                shownTopAlert = true;
+            }
+            });
+        }
+        },
+        error: function () {
+        $('#accountSettingsAlert')
+            .text('Network error. Please try again.')
+            .removeClass('d-none');
+        }
+    });
+    });
 });

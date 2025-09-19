@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 from sqlalchemy import Column, String, DateTime, func, create_engine
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import declarative_base, sessionmaker
-from pydantic import BaseModel, EmailStr, constr
+from pydantic import BaseModel, EmailStr, constr, validator
 from typing import List, Optional
 
 
@@ -49,6 +49,18 @@ class SignupIn(BaseModel):
 class SigninIn(BaseModel):
     email: EmailStr
     password: constr(min_length=1)
+
+class AccountSettings(BaseModel):
+    first_name: constr(strip_whitespace=True, min_length=1, max_length=80)
+    last_name:  constr(strip_whitespace=True, min_length=1, max_length=80)
+    email: EmailStr
+    password: Optional[PasswordStr] = None
+
+    @validator("password", pre=True, always=True)
+    def empty_string_to_none(cls, v):
+        if v is None or v == "":
+            return None
+        return
 
 class APIError(BaseModel):
     field: str

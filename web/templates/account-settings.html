@@ -6,23 +6,26 @@
   <div class="card shadow-sm">
     <div class="card-body p-4">
       <h1 class="h4 fw-bold mb-4 text-center">Account Settings</h1>
-      <form>
+      <form id="accountSettingsForm" novalidate>
         <div class="mb-3">
           <label for="firstName" class="form-label">First Name</label>
-          <input type="text" class="form-control" id="firstName" value="John">
+          <input type="text" class="form-control" id="firstName" value="{{ user.first_name }}">
         </div>
         <div class="mb-3">
           <label for="lastName" class="form-label">Last Name</label>
-          <input type="text" class="form-control" id="lastName" value="Doe">
+          <input type="text" class="form-control" id="lastName" value="{{ user.last_name }}">
         </div>
         <div class="mb-3">
           <label for="email" class="form-label">Email</label>
-          <input type="email" class="form-control" id="email" value="john.doe@gmail.com">
+          <input type="email" class="form-control" id="email" value="{{ user.email }}">
         </div>
         <div class="mb-3">
           <label for="newPassword" class="form-label">New Password</label>
           <input type="password" class="form-control" id="newPassword" placeholder="••••••••">
         </div>
+
+        <div class="alert alert-danger d-none" id="accountSettingsAlert"></div>
+
         <div class="d-grid">
           <button type="submit" class="btn btn-success">Save</button>
         </div>

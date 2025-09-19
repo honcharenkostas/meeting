@@ -7,7 +7,7 @@ from starlette.middleware.sessions import SessionMiddleware
 from sqlalchemy.orm import Session
 from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
-from models.db import get_session, Client, SignupIn, SigninIn, APIResponse, APIError
+from models.db import get_session, Client, SignupIn, SigninIn, AccountSettings, APIResponse, APIError
 from helpers.security import hash_password, verify_password, new_csrf_token, validate_csrf, CSRF_COOKIE_NAME, CSRF_HEADER_NAME
 from helpers.auth import login_user, logout_user, current_user_id, require_user
 
@@ -37,11 +37,9 @@ def ensure_csrf(request: Request):
 # ---- Pages ----------------------------------------------------------
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request):
-    uid = current_user_id(request)
     return templates.TemplateResponse(
         "index.html", {
             "request": request, 
-            "user_id": uid,
         }
     )
 
@@ -111,6 +109,44 @@ async def api_signin(payload: SigninIn, request: Request, db: Session = Depends(
     resp.set_cookie(CSRF_COOKIE_NAME, new_token, samesite="Lax", secure=False, httponly=False, max_age=3600)
     return resp
 
+@app.get("/account-settings", response_class=HTMLResponse)
+async def account_settings(request: Request, user_id: str = Depends(require_user), db: Session = Depends(get_session)):
+    user = db.query(Client).filter(Client.id == user_id).first()
+    if not user:
+        return RedirectResponse(url="/signin")
+
+    return templates.TemplateResponse(
+        "account-settings.html", 
+        {
+            "request": request,
+            "user": user,
+            "show_top_menu": True,
+        }
+    )
+
+@app.post("/api/account-settings", response_model=APIResponse)
+async def api_account_settings(payload: AccountSettings, request: Request, user_id: str = Depends(require_user), db: Session = Depends(get_session)):
+    ensure_csrf(request)
+
+    user = db.query(Client).filter(Client.id == user_id).first()
+    user.first_name = payload.first_name
+    user.last_name = payload.last_name
+    user.email = payload.email
+    if payload.password:
+        user.password_hash = hash_password(payload.password)
+    db.add(user)
+    try:
+        db.commit()
+    except IntegrityError:
+        db.rollback()
+        # TODO: catch errors in another way
+        return JSONResponse(APIResponse(ok=False, errors=[APIError(field="email", message="Internal Server Error")]).model_dump())
+
+    db.refresh(user)
+
+    resp = JSONResponse(APIResponse(ok=True, redirect="/meetings").model_dump())
+    return resp
+
 @app.get("/download", response_class=HTMLResponse)
 async def download(request: Request):
     return templates.TemplateResponse("download.html", {"request": request})
@@ -138,10 +174,6 @@ async def create_meeting(request: Request):
 @app.get("/meeting-report", response_class=HTMLResponse)
 async def meeting_report(request: Request):
     return templates.TemplateResponse("meeting-report.html", {"request": request})
-
-@app.get("/account-settings", response_class=HTMLResponse)
-async def account(request: Request):
-    return templates.TemplateResponse("account-settings.html", {"request": request})
 
 @app.exception_handler(404)
 async def not_found(request: Request, exc):
